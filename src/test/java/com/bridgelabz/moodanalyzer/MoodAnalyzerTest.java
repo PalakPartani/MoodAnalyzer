@@ -62,6 +62,26 @@ public class MoodAnalyzerTest {
         }
         Assert.assertEquals("This is empty", mood);
     }
+    @Test
+    public void givenMoodAnalyzerClass_WhenProper_ShouldReturnObject() {
+        //created method in new class to return the message
+        MoodAnalyzer moodAnalyzer = MoodAnalyzerFactory.createMoodAnalyzer("I am in a happy mood");   //created method in new class
+        try {
+            String mood = moodAnalyzer.analyzeMood();
+            Assert.assertEquals("HAPPY", mood);
+        } catch (MoodAnalyzerException ex) {
+            ex.printStackTrace();
+        }
+    }
+    @Test
+    public void givenMoodAnalysisClass_WhenProper_ShouldReturnObject() {
+        try {
+            MoodAnalyzer moodAnalyzer = MoodAnalyzerFactory.createMoodAnalyzer("I am in a happy mood");
+            Assert.assertEquals(new MoodAnalyzer("I am in a happy mood"), moodAnalyzer);
+        } catch (MoodAnalyzerException ex) {
+            ex.printStackTrace();
+        }
+    }
     //Reflection
     @Test
     public void givenMoodAnalyzer_WhenProper_ShouldReturnObject() {
