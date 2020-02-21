@@ -1,12 +1,13 @@
 package com.bridgelabz.moodanalyzer;
 
 import com.bridgelabz.moodAnalyzerException.MoodAnalyzerException;
-import com.sun.tools.javac.code.Attribute;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MoodAnalyzerFactory {
+
     public static MoodAnalyzer createMoodAnalyzer() {
         try {
             //constructor obj to get the constructor of that class
@@ -33,6 +34,7 @@ public class MoodAnalyzerFactory {
         }
         return null;
     }
+
     public static MoodAnalyzer createMoodAnalyzer(String message) {
         try {
             //constructor obj to get the constructor of that class
@@ -60,6 +62,7 @@ public class MoodAnalyzerFactory {
         //if no message found then it will return null
         return null;
     }
+
     //4.1 and 4.2
     public static void getConstructor(String stringClass, Class stringMethod) throws MoodAnalyzerException {
         try {
@@ -71,4 +74,20 @@ public class MoodAnalyzerFactory {
             throw new MoodAnalyzerException(MoodAnalyzerException.moodException.NO_SUCH_CLASS, "Wrong class");
         }
     }
+
+    public static String getMethod(MoodAnalyzer obj, String methodName)  {
+        try {
+           Method methodObject = obj.getClass().getDeclaredMethod(methodName);
+            return (String) methodObject.invoke(obj);
+        } catch (NoSuchMethodException e) {
+            throw new MoodAnalyzerException(MoodAnalyzerException.moodException.NO_SUCH_METHOD,"Method not found!");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
