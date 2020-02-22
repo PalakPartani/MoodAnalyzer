@@ -162,4 +162,42 @@ public class MoodAnalyzerTest {
 
         }
     }
+
+    @Test
+    public void givenHappyThroughReflection_ShouldReturnHappy() {
+        try{
+            MoodAnalyzer moodAnalyzer=MoodAnalyzerFactory.createMoodAnalyzer("I am in happy mood");
+
+            String analyzeMood=MoodAnalyzerFactory.setField(moodAnalyzer,"message","I Am In happy Mood");
+            Assert.assertEquals("HAPPY",analyzeMood);
+        }catch (MoodAnalyzerException e){
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenHappyThroughReflection_ShouldReturnException() {
+        try{
+            MoodAnalyzer moodAnalyzer=MoodAnalyzerFactory.createMoodAnalyzer("I am in happy mood");
+
+            String analyzeMood=MoodAnalyzerFactory.setField(moodAnalyzer,"mesage","I Am In happy Mood");
+
+        }catch (MoodAnalyzerException e){
+            e.printStackTrace();
+            Assert.assertEquals(MoodAnalyzerException.moodException.NO_SUCH_FIELD,e.type);
+        }
+    }
+
+    @Test
+    public void givenHappyThroughReflection_ShouldReturnExceptionNull() {
+        try{
+            MoodAnalyzer moodAnalyzer=MoodAnalyzerFactory.createMoodAnalyzer("I am in happy mood");
+
+            String analyzeMood=MoodAnalyzerFactory.setField(moodAnalyzer,"message",null);
+
+        }catch (MoodAnalyzerException e){
+            e.printStackTrace();
+            Assert.assertEquals(MoodAnalyzerException.moodException.OBJECT_CREATION_ISSUE,e.type);
+        }
+    }
+
 }

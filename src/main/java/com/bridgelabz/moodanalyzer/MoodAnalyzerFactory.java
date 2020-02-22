@@ -3,6 +3,7 @@ package com.bridgelabz.moodanalyzer;
 import com.bridgelabz.moodAnalyzerException.MoodAnalyzerException;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -90,4 +91,24 @@ public class MoodAnalyzerFactory {
     }
 
 
+    public static String setField(MoodAnalyzer obj, String fieldName,String message) {
+        try {
+           // Method methodObject = obj.getClass().getDeclaredMethod(methodName);
+            Field declaredField = obj.getClass().getDeclaredField(fieldName);
+            declaredField.setAccessible(true);
+            declaredField.set(obj,message);
+            return (String) obj.getClass().getDeclaredMethod("analyzeMood").invoke(obj);
+            //declaredField = "I am in HAPPY mood";
+        } catch (NoSuchFieldException e) {
+            throw new MoodAnalyzerException(MoodAnalyzerException.moodException.NO_SUCH_FIELD,"Method not found!");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new MoodAnalyzerException(MoodAnalyzerException.moodException.OBJECT_CREATION_ISSUE,"Method not found!");
+        }
+        return null;
+    }
 }
